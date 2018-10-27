@@ -1,0 +1,7 @@
+*.dev
+*.exe
+*.layout
+*.o
+*.win
+*.DS_Store
+*.xcodeproj
