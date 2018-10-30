@@ -10,46 +10,42 @@
 #include <string.h>
 #define SIZE 10
 
-int n,water,contNum[SIZE],contVolume[SIZE],possibleNum[100][SIZE],totalOfPossibleNum[100];
-int possibleCount = 0;
+int n,water,contNum[SIZE],contVolume[SIZE],minimaCont[SIZE],minimaSum,sum,flag = 0;
 
 void filling(int pos, int liter) {
-    if(pos < n && liter < water) {
+    if(pos < n && liter > 0) {
         filling(pos + 1, liter);
         contNum[pos]++;
-        filling(pos, liter + contVolume[pos]);
+        filling(pos, liter - contVolume[pos]);
         contNum[pos]--;
     }
-    else {
-        if(liter == water) {
-            memcpy(possibleNum[possibleCount], contNum, sizeof(contNum));
-            possibleCount++;
+    else if(liter == 0){
+        if(flag) {
+            sum = 0;
+            for (int i = 0; i < n; i++) {
+                sum += contNum[i];
+            }
+            if(sum < minimaSum){
+                minimaSum = sum;
+                memcpy(minimaCont, contNum, sizeof(contNum));
+            }
+        }
+        else {
+            memcpy(minimaCont, contNum, sizeof(contNum));
+            sum = 0;
+            for (int i = 0; i < n; i++) {
+                sum += contNum[i];
+            }
+            minimaSum = sum;
+            flag = 1;
         }
     }
 }
 
-int findMinima() {
-    int i,j,min,minPos;
-    memset(totalOfPossibleNum, 0, sizeof(totalOfPossibleNum));
-    for (i = 0; i < possibleCount; i++) {
-        for (j = 0; j < n; j++) {
-            totalOfPossibleNum[i] += possibleNum[i][j];
-        }
-    }
-    min = totalOfPossibleNum[0];
-    minPos = 0;
-    for (i = 1; i < possibleCount; i++) {
-        if (totalOfPossibleNum[i] < min) {
-            min = totalOfPossibleNum[i];
-            minPos = i;
-        }
-    }
-    return minPos;
-}
 
 int main(int argc, const char * argv[]) {
     
-    int i,idealCase;
+    int i;
     
     scanf("%d", &n);
     memset(contNum,0,sizeof(contNum));
@@ -58,14 +54,13 @@ int main(int argc, const char * argv[]) {
     }
     scanf("%d", &water);
     
-    filling(0, 0);
-    idealCase = findMinima();
+    filling(0, water);
     
     //output
     printf("(");
     for (i = 0; i < n; i++) {
         if(i) printf(",");
-        printf("%d",possibleNum[idealCase][i]);
+        printf("%d",minimaCont[i]);
     }
     printf(")\n");
     
