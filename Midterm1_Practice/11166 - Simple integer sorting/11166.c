@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 		}
 		
 		sort();
-		
+        
 		for(j = 0; j < n; j++){
 			if(j) printf(" ");
 			printf("%d", v[j]);
