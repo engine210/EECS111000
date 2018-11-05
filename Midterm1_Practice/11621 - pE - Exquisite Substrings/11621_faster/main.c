@@ -11,48 +11,43 @@
 
 int main(int argc, const char * argv[]) {
     
-    char in[2010];
-    char s[4020];
-    int i,j,cont,pos,len;
+    char s[2010];
+    int i,count,begin,end,len;
     
-    while (scanf("%s", in) != EOF) {
-        memset(s,'\0',sizeof(s));
-        len = (int)strlen(in);
-        for (i = 0; i < len; i++) {
-            s[i*2] = in[i];
-        }
-        len = len * 2 - 1;
-        cont = 0;
+    while (scanf("%s", s) != EOF) {
         
-        pos = 1;
-        for (i = 1; i <= len / 2; i++) {
-            for (j = 1; j <= i; j++) {
-                if (s[pos+j] == s[pos-j]) {
-                    if(s[pos+j] != '\0') {
-                        cont++;
-                    }
+        len = (int)strlen(s);
+        count = 0;
+        
+        for (i = 0; i < len - 1; i++) {
+            begin = i;
+            end = i + 1;
+            while (begin >= 0 && end < len) {
+                if(s[begin] == s[end]) {
+                    count++;
+                    begin--;
+                    end++;
                 }
                 else {
                     break;
                 }
             }
-            pos++;
-        }
-        for (i = len / 2 - 1; i >= 1; i--) {
-            for (j = 1; j <= i; j++) {
-                if (s[pos+j] == s[pos-j]) {
-                    if(s[pos+j] != '\0') {
-                        cont++;
-                    }
+            begin = i - 1;
+            end = i + 1;
+            while (begin >= 0 && end < len) {
+                if(s[begin] == s[end]) {
+                    count++;
+                    begin--;
+                    end++;
                 }
                 else {
                     break;
                 }
             }
-            pos++;
         }
         
-        printf("%d\n",cont);
+        printf("%d\n",count);
     }
     return 0;
 }
+
