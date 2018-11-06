@@ -9,109 +9,79 @@
 #include <stdio.h>
 #include <string.h>
 
-int MarkTable[6][6];
-int card[6][6];
-
-void mark(int a) {
-    int i,j;
-    for (i = 1; i <= 5; i++) {
-        for (j = 1; j <= 5; j++) {
-            if(card[i][j] == a) {
-                MarkTable[i][j] = 1;
-                break;
-            }
-        }
-        if(MarkTable[i][j]) {
-            break;
-        }
-    }
-}
-
-int check() {
-    int i,j,flag;
-    for (i = 1; i <= 5; i++) {
-        flag = 1;
-        for (j = 1; j <= 5; j++) {
-            if(!MarkTable[i][j]) {
-                flag = 0;
-                break;
-            }
-        }
-        if(flag) {
-            return 1;
-        }
-    }
-    
-    for (j = 1; j <= 5; j++) {
-        flag = 1;
-        for (i = 1; i <= 5; i++) {
-            if(!MarkTable[i][j]) {
-                flag = 0;
-                break;
-            }
-        }
-        if(flag) {
-            return 1;
-        }
-    }
-    
-    flag = 1;
-    for (i = 1; i <= 5; i++) {
-        if(!MarkTable[i][i]) {
-            flag = 0;
-            break;
-        }
-    }
-    if(flag) {
-        return 1;
-    }
-    
-    flag = 1;
-    for (i = 1; i <= 5; i++) {
-        if(!MarkTable[i][6-i]) {
-            flag = 0;
-            break;
-        }
-    }
-    if(flag) {
-        return 1;
-    }
-    
-    return 0;
-}
-
 int main(int argc, const char * argv[]) {
     
-    int i,j,k;
-    int t,n,flag;
+    int i,j,k,flag;
+    int T,N;
+    int bingo[6][6];
     int sel[30];
+    int ver[6],hor[6],obliqueL,obliqueR;
     
     for (i = 1; i <= 5; i++) {
         for (j = 1; j <= 5; j++) {
-            scanf("%d", &card[i][j]);
+            scanf("%d", &bingo[i][j]);
         }
     }
     
-    scanf("%d", &t);
-    
-    for(k = 1; k <= t; k++) {
-        memset(MarkTable,0,sizeof(MarkTable));
-        scanf("%d", &n);
-        for (i = 0; i < n; i++) {
+    scanf("%d", &T);
+    int times = 1;
+    while (T >= times) {
+        memset(ver, 0, sizeof(ver));
+        memset(hor, 0, sizeof(hor));
+        obliqueL = 0;
+        obliqueR = 0;
+        
+        scanf("%d", &N);
+        
+        for (i = 0; i < N; i++) {
             scanf("%d", &sel[i]);
         }
-        flag = 1;
-        for (i = 0; i < n; i++) {
-            mark(sel[i]);
-            if(check()) {
-                printf("Case #%d: %d\n", k, i + 1);
-                flag = 0;
+        
+        for (i = 0; i < N; i++) {
+            flag = 0;
+            for (j = 1; j <= 5; j++) {
+                for (k = 1; k <= 5; k++) {
+                    if (sel[i] == bingo[j][k]) {
+                        ver[j]++;
+                        hor[k]++;
+                        if (j == k) {
+                            obliqueL++;
+                        }
+                        if (j == 6 - k) {
+                            obliqueR++;
+                        }
+                        flag = 1;
+                        break;
+                    }
+                }
+                if (flag) {
+                    break;
+                }
+            }
+            
+            flag = 0;
+            if(obliqueL == 5 || obliqueR == 5) {
+                printf("Case #%d: %d\n", times, i + 1);
+                flag = 1;
+                break;
+            }
+            for (j = 1; j <= 5; j++) {
+                if (ver[j] == 5 || hor[j] == 5) {
+                    printf("Case #%d: %d\n", times, i + 1);
+                    flag = 1;
+                    break;
+                }
+            }
+            if (flag) {
                 break;
             }
         }
-        if(flag) {
-            printf("Case #%d: Not yet \\(^o^)/\n", k);
+        
+        if (!flag) {
+            printf("Case #%d: Not yet \\(^o^)/\n", times);
         }
+        
+        times++;
     }
     return 0;
 }
