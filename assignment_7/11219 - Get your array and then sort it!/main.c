@@ -21,29 +21,32 @@ int* readInput() {
 }
 
 void my_sort(int* B) {
+    /*
+    int* arr = (int*) *B;
     int i,j,temp;
-    int* arr = *B;
     
-    for(i = 1; i < *arr; i++) {
-        for(j = 1; j <= *(arr) - i; j++) {
-            if(*(arr+j) > *(arr+j+1)){
-                temp = *(arr+j);
-                *(arr+j) = *(arr+j+1);
-                *(arr+j+1) = temp;
+    for(i = 1; i < arr[0]; i++) {
+        for(j = 1; j <= arr[0] - i; j++) {
+            if(arr[j] > arr[j+1]){
+                temp = arr[j];
+                arr[j] = arr[j+1];
+                arr[j+1] = temp;
             }
         }
     }
-    /*
-     for(i = 1; i < *arr; i++) {
-     for(j = 1; j <= *(arr) - i; j++) {
-     if(C[j] > C[j+1]){
-     temp = C[j];
-     C[j] = C[j+1];
-     C[j+1] = temp;
-     }
-     }
-     }
     */
+    int** arr = (int**) B;
+    int i,j,temp;
+    
+    for(i = 1; i < (*arr)[0]; i++) {
+        for(j = 1; j <= (*arr)[0] - i; j++) {
+            if((*arr)[j] > (*arr)[j+1]){
+                temp = (*arr)[j];
+                (*arr)[j] = (*arr)[j+1];
+                (*arr)[j+1] = temp;
+            }
+        }
+    }
 }
 
 int main() {
