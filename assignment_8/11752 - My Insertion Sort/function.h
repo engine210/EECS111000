@@ -42,3 +42,30 @@ void mysort(void* arr, size_t count, size_t size, int (*cmp) (const void*, const
 }
 
 #endif //TEST_FOR_C_FUNCTION_H
+
+#include <stdio.h>
+
+int compare(const void* a, const void* b){
+    const int * va = (const int *)a;
+    const int * vb = (const int *)b;
+    return *va - *vb;
+}
+
+void assign(char* x, char* y, size_t size){
+    int* vx = (int *) x;
+    int* vy = (int *) y;
+    int temp = *vx;
+    *vx = *vy;
+    *vy = temp;
+}
+
+void mysort(void* arr, size_t count, size_t size, int (*cmp) (const void*, const void*)){
+    int i, j;
+    for (i = 1; i < count ; i++){
+        for (j = i; j >= 0; j--){
+            if (compare(&(arr[j-1]), &(arr[j])) > 0) {
+                assign(&(arr[j-1]), &(arr[j]), size);
+            }
+        }
+    }
+}
