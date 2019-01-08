@@ -11,10 +11,10 @@
 
 int n;
 int edge[1010][1010];
-int flag;
 
 void dfs(int vertice, int depth) {
     int i;
+    //show();
     if (edge[0][vertice] == 0) {
         edge[0][vertice] = depth;
         for (i = 1; i <= n; i++) {
@@ -23,10 +23,29 @@ void dfs(int vertice, int depth) {
             }
         }
     }
-    else {
-        if ((edge[0][vertice] + depth) % 2) {
-            flag = 0;
+}
+
+int judge() {
+    int i, j;
+    for (i = 1; i <= n; i++) {
+        for (j = i + 1; j <= n; j++) {
+            if (edge[i][j]) {
+                if ((edge[0][i] + edge[0][j]) % 2 == 0) {
+                    return 0;
+                }
+            }
         }
+    }
+    return 1;
+}
+
+void show() {
+    int i, j;
+    for (i = 0; i <= 20; i++) {
+        for (j = 0; j <= 20; j++) {
+            printf("%d ", edge[i][j]);
+        }
+        printf("\n");
     }
 }
 
@@ -48,9 +67,13 @@ int main(int argc, const char * argv[]) {
             edge[vertice_2][vertice_1] = 1;
         }
         
-        flag = 1;
-        dfs(1, 1);
-        flag ? printf("Yes\n") : printf("No\n");
+        for (i = 1; i < n; i++) {
+            if (!edge[0][i]) {
+                dfs(i, 1);
+            }
+        }
+        
+        judge() ? printf("Yes\n") : printf("No\n");
         
         
         T--;
