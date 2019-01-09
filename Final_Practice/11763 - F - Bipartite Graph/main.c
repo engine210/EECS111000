@@ -11,10 +11,14 @@
 
 int n;
 int edge[1010][1010];
+/*
+ edge[0][i] is used to store the depth of the point.
+ edge[i][j] == 1 represent point i and point j are connected.
+ */
+int flag; // to record it's bipartite graph or not.
 
 void dfs(int vertice, int depth) {
     int i;
-    //show();
     if (edge[0][vertice] == 0) {
         edge[0][vertice] = depth;
         for (i = 1; i <= n; i++) {
